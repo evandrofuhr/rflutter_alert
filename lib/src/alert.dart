@@ -43,8 +43,8 @@ class Alert {
   });
 
   /// Displays defined alert window
-  Future<bool> show() async {
-    return await showGeneralDialog(
+  Future<T> show<T>() async {
+    return await showGeneralDialog<T>(
       context: context,
       pageBuilder: (BuildContext buildContext, Animation<double> animation,
           Animation<double> secondaryAnimation) {
@@ -59,25 +59,30 @@ class Alert {
         Animation<double> animation,
         Animation<double> secondaryAnimation,
         Widget child,
-      ) =>
-          _showAnimation(animation, secondaryAnimation, child),
+      ) {
+        return _showAnimation(animation, secondaryAnimation, child);
+      },
     );
   }
 
-// Will be added in next version.
-  // void dismiss() {
-  //   Navigator.pop(context);
-  // }
+  void dismiss() {
+    Navigator.pop(context);
+  }
 
   // Alert dialog content widget
   Widget _buildDialog() {
     return Center(
       child: ConstrainedBox(
-        constraints: style.constraints ?? BoxConstraints.expand(width: double.infinity, height: double.infinity),
+        constraints: style.constraints ??
+            BoxConstraints.expand(
+              width: double.infinity,
+              height: double.infinity,
+            ),
         child: Center(
           child: SingleChildScrollView(
             child: AlertDialog(
-              backgroundColor: style.backgroundColor ?? Theme.of(context).dialogBackgroundColor,
+              backgroundColor: style.backgroundColor ??
+                  Theme.of(context).dialogBackgroundColor,
               shape: style.alertBorder ?? _defaultShape(),
               titlePadding: EdgeInsets.all(0.0),
               title: Container(
@@ -186,9 +191,11 @@ class Alert {
           if (button.width != null && buttons.length == 1) {
             expandedButtons.add(buttonWidget);
           } else {
-            expandedButtons.add(Expanded(
-              child: buttonWidget,
-            ));
+            expandedButtons.add(
+              Expanded(
+                child: buttonWidget,
+              ),
+            );
           }
         },
       );
@@ -248,18 +255,40 @@ class Alert {
   _showAnimation(animation, secondaryAnimation, child) {
     if (style.animationType == AnimationType.fromRight) {
       return AnimationTransition.fromRight(
-          animation, secondaryAnimation, child);
+        animation,
+        secondaryAnimation,
+        child,
+      );
     } else if (style.animationType == AnimationType.fromLeft) {
-      return AnimationTransition.fromLeft(animation, secondaryAnimation, child);
+      return AnimationTransition.fromLeft(
+        animation,
+        secondaryAnimation,
+        child,
+      );
     } else if (style.animationType == AnimationType.fromBottom) {
       return AnimationTransition.fromBottom(
-          animation, secondaryAnimation, child);
+        animation,
+        secondaryAnimation,
+        child,
+      );
     } else if (style.animationType == AnimationType.grow) {
-      return AnimationTransition.grow(animation, secondaryAnimation, child);
+      return AnimationTransition.grow(
+        animation,
+        secondaryAnimation,
+        child,
+      );
     } else if (style.animationType == AnimationType.shrink) {
-      return AnimationTransition.shrink(animation, secondaryAnimation, child);
+      return AnimationTransition.shrink(
+        animation,
+        secondaryAnimation,
+        child,
+      );
     } else {
-      return AnimationTransition.fromTop(animation, secondaryAnimation, child);
+      return AnimationTransition.fromTop(
+        animation,
+        secondaryAnimation,
+        child,
+      );
     }
   }
 }
