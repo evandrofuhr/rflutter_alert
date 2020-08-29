@@ -65,8 +65,8 @@ class Alert {
     );
   }
 
-  void dismiss() {
-    Navigator.pop(context);
+  void dismiss<T>({T value}) {
+    Navigator.of(context).pop(value);
   }
 
   // Alert dialog content widget
@@ -241,6 +241,12 @@ class Alert {
       case AlertType.warning:
         response = Image.asset(
           '$kImagePath/icon_warning.png',
+          package: 'rflutter_alert',
+        );
+        break;
+      case AlertType.question:
+        response = Image.asset(
+          '$kImagePath/icon_question.png',
           package: 'rflutter_alert',
         );
         break;
